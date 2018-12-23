@@ -10,9 +10,9 @@
  */
 var schedule = require('../api/services/schedule.js');
 module.exports.bootstrap = async function(done) {
-    Admin.create({email:'thiendia', password:'bananhduc'}).then(function(admin){
-      return done();
-    })
+    // Admin.create({email:'thiendia', password:'bananhduc'}).then(function(admin){
+    //   return done();
+    // })
   schedule.rateCurrency()
   done();
 };
