@@ -34,7 +34,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/macbook/config-shopeelike.git"
+    "url": "git://github.com/macbook/config.git"
   },
   "author": "macbook",
   "license": "",
