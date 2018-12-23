@@ -2,7 +2,7 @@
   "name": "config",
   "private": true,
   "version": "0.0.0",
-  "description": "a Sails application",
+  "description": "a application",
   "keywords": [],
   "dependencies": {
     "@sailshq/connect-redis": "^3.2.1",
