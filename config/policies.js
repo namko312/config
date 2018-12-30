@@ -32,8 +32,8 @@ module.exports.policies = {
   'admin/remove':'admin_login',
   'admin/replace':'admin_login',
 
-  'currency/find':'admin_login',
-  //'currency/findOne':'admin_login',
+  //'currency/find':'admin_login',
+  'currency/findOne':'admin_login',
   'currency/create':'admin_login',
   'currency/update':'admin_login',
   'currency/destroy':'admin_login',
