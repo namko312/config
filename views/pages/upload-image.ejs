@@ -1,39 +1,9 @@
 <% layout('/layouts/layout_feature.ejs') %>
 <div id="app">
-  <h4 class="text-center">Thiết lập tỷ giá</h4>
-  <button class="btn btn-primary" @click="show.create = !show.create ">Tạo mới cặp xxx / vnđ</button>
-  <div class="create-tygia-wrapper" v-if="show.create">
-    <input class="form-control" placeholder="Tên cặp / VNĐ" v-model="createTygia.name">
-    <input class="form-control mt-3" type="number" placeholder="Tỷ giá" v-model="createTygia.rate">
-    <button class="btn btn-sm mt-3 btn-primary" @click="create()"> Tạo </button>
-    <button class="btn btn-sm mt-3 btn-secondary" @click="show.create = false"> Huỷ </button>
-  </div>
   <div>
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Cặp</th>
-        <th scope="col">Rate VNĐ</th>
-        <th scope="col">Hành động</th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in list">
-          <th scope="row">{{index + 1}}</th>
-          <td>
-            {{item.name}}
-          </td>
-          <td>
-            <input class="form-control form-control-sm" type="number" v-model="item.rate">
-          </td>
-          <td>
-            <button class="btn btn-primary btn-sm" @click="updateThucong(item)">Update thủ công</button>
-            <button class="btn btn-danger btn-sm" @click="deleteTygia(item)">Xoá</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <input type="file" v-on:change="onImageChange" class="form-control d-inline-block" style="width: 200px">
+    <input type="text" v-model="filename"  class="form-control d-inline-block" style="width: 200px" placeholder="Tên file">
+    <button v-if="file && filename" class="btn btn-primary" @click="upload()">Upload</button>
   </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
@@ -42,18 +12,8 @@
   var app = new Vue({
     el: '#app',
     data: {
-      list: [],
-      pagging: {
-        limit: 1000,
-        skip: 0
-      },
-      show: {
-        create: false
-      },
-      createTygia: {
-        name: '',
-        rate: 0
-      }
+      file: null,
+      filename: ''
     },
     created: function() {
       this.getData()
@@ -65,44 +25,24 @@
           this.list = res.data
         })
       },
-      create: function () {
-        if(!this.createTygia.name || this.createTygia.rate <= 0) {
-          return alert('Không tạo được cặp tỷ giá trị nhập vào không đúng')
-        }
-        var url = `/currency`
-        axios.post(url, {
-          name: this.createTygia.name.trim().toUpperCase(),
-          rate: this.createTygia.rate
-        }).then((res) => {
-            this.getData()
-            this.createTygia = {
-              name: '',
-              rate: 0
+      onImageChange: function (e) {
+        let files = e.target.files || e.dataTransfer.files
+        if (!files.length) return this.file = null
+        this.file = files[0]
+      },
+      upload: async function () {
+        try {
+          const formData = new FormData()
+          formData.append('filename', this.filename)
+          formData.append('file', this.file)
+          let resUpload = await axios.post('/upload-image/add', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-            this.show.create = false
-        })
-      },
-      deleteTygia: function (item) {
-        var r = confirm(`Bạn có muốn xoá ${item.name}/VNĐ với tỷ giá ${item.rate} không?`)
-        if(!r) return
-        var url = `/currency/${item.id}`
-        axios.delete(url,{}).then((res) => {
-          alert('Xoá thành công')
-          this.getData()
-        })
-      },
-      updateThucong: function (item) {
-        if(item.rate <= 0) {
-          this.getData()
-          return alert('Giá trị rate không hợp lệ')
+          })
+        } catch (e) {
+          alert(e.toString())
         }
-        var url = `/currency/${item.id}`
-        axios.patch(url,{
-          rate: item.rate
-        }).then((res) => {
-          alert('Update thủ công thành công')
-          this.getData()
-        })
       }
     },
   })

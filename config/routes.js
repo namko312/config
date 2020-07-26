@@ -34,6 +34,8 @@ module.exports.routes = {
 
   '/upload-image': 'HomeController.uploadImage',
 
+  'POST /upload-image/add': 'UploadImageController.add',
+
 
   'POST /admin/login/local': 'AuthController.adminLocal',
 
