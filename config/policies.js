@@ -20,7 +20,13 @@ module.exports.policies = {
   // '*': true,
   'HomeController': {
     'index': 'admin_login',
-    'tygia': 'admin_login'
+    'tygia': 'admin_login',
+    'uploadImage': 'admin_login',
+  },
+  'UploadImageController': {
+    'upload': 'admin_login',
+    'get': 'admin_login',
+    'remove': 'admin_login',
   },
   'admin/find':'admin_login',
   'admin/findOne':'admin_login',
@@ -41,4 +47,14 @@ module.exports.policies = {
   'currency/add':'admin_login',
   'currency/remove':'admin_login',
   'currency/replace':'admin_login',
+
+  'uploadImage/find':'admin_login',
+  'uploadImage/findOne':'admin_login',
+  'uploadImage/create':'admin_login',
+  'uploadImage/update':'admin_login',
+  'uploadImage/destroy':'admin_login',
+  'uploadImage/populate':'admin_login',
+  'uploadImage/add':'admin_login',
+  'uploadImage/remove':'admin_login',
+  'uploadImage/replace':'admin_login',
 };

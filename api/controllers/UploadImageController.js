@@ -18,12 +18,12 @@ module.exports = {
           dirname: '../../assets/upload-image',
           saveAs: req.body.filename
         },function (err, uploadedFile) {
-          if (err) return res.negotiate(err)
+          if (err) return res.serverError(err)
           return res.ok()
         })
       }
     } catch (e) {
-      return res.negotiate(e)
+      return res.serverError(e)
     }
   },
   get: async function (req, res) {
@@ -31,19 +31,19 @@ module.exports = {
       let images = await UploadImage.find({})
       res.json({images})
     } catch (e) {
-      return res.negotiate(e)
+      return res.serverError(e)
     }
   },
   remove: async function (req, res) {
     try {
       let pathImage = path.join(__dirname, '../../assets/upload-image/' + req.body.filename)
       fs.unlink(pathImage, async function(err) {
-        if (err) return res.negotiate(err)
+        if (err) return res.serverError(err)
         await UploadImage.destroy({filename: req.body.filename})
         return res.ok()
       })
     } catch (e) {
-      return res.negotiate(e)
+      return res.serverError(e)
     }
   }
 };
