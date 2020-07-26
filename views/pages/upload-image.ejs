@@ -5,7 +5,7 @@
     <input type="text" v-model="filename"  class="form-control d-inline-block" style="width: 200px" placeholder="Tên file">
     <button v-if="file && filename" class="btn btn-primary" @click="upload()">Upload</button>
   </div>
-  <div>
+  <div class="mt-4">
     <div class="d-flex justify-content-center">
       <div class="img-wrapper" v-for="img in list">
         <img :src="'/upload-image/' + img.filename">
@@ -66,6 +66,7 @@
 <style>
   .img-wrapper {
     border: 1px dashed #000;
+    margin: 10px;
   }
   .img-wrapper img {
     max-width: 150px;
