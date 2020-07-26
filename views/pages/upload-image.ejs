@@ -1,5 +1,6 @@
 <% layout('/layouts/layout_feature.ejs') %>
 <div id="app">
+  <h2 @click="show.delete = !show.delete">Trang Upload hình ảnh</h2>
   <div>
     <input type="file" v-on:change="onImageChange" class="form-control d-inline-block" style="width: 200px">
     <input type="text" v-model="filename"  class="form-control d-inline-block" style="width: 200px" placeholder="Tên file">
@@ -10,7 +11,7 @@
       <div class="img-wrapper" v-for="img in list">
         <img :src="'/upload-image/' + img.filename">
         <small class="d-block text-center">https://config.shopeelike.cf/upload-image/{{img.filename}}</small>
-        <div class="text-center">
+        <div class="text-center" v-if="show.delete">
           <button class="btn btn-danger btn-sm" @click="deleteFile(img.filename)">Xoá</button>
         </div>
       </div>
@@ -23,6 +24,9 @@
   var app = new Vue({
     el: '#app',
     data: {
+      show: {
+        delete: false
+      },
       file: null,
       filename: '',
       list: []
