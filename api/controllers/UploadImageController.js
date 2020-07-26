@@ -28,7 +28,7 @@ module.exports = {
   },
   get: async function (req, res) {
     try {
-      let images = await UploadImage.find({})
+      let images = await UploadImage.find({}).sort('createdAt DESC')
       res.json({images})
     } catch (e) {
       return res.serverError(e)
