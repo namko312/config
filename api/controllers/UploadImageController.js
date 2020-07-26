@@ -4,14 +4,34 @@
  * @description :: Server-side logic for managing auths
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-var passport = require('passport');
+let upload = require('multer')()
 module.exports = {
-  add: function(req, res) {
+  upload: async function (req, res) {
     try {
-      console.log(req)
-      res.json({success: true})
+      let image = await UploadImage.findOne({filename:req.body.filename})
+      if(image) {
+        throw 'Filename đã tồn tại'
+      } else {
+        let image = await UploadImage.create({filename:req.body.filename})
+        req.file('file').upload({
+          dirname: '../../assets/upload-image',
+          saveAs: req.body.filename
+        },function (err, uploadedFile) {
+          if (err) return res.negotiate(err)
+          console.log(uploadedFile)
+          return res.ok()
+        })
+      }
     } catch (e) {
-      res.json({success: false})
+      return res.negotiate(e)
     }
   },
+  get: async function (req, res) {
+    try {
+      let images = await UploadImage.find({})
+      res.json({images})
+    } catch (e) {
+      return res.negotiate(e)
+    }
+  }
 };

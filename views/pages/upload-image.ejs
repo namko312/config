@@ -19,11 +19,13 @@
       this.getData()
     },
     methods: {
-      getData: function () {
-        var url = `/currency?limit=${this.pagging.limit}&skip=${this.pagging.skip}`
-        axios.get(url).then((res) => {
-          this.list = res.data
-        })
+      getData: async function () {
+        try {
+          let res = await axios.get('/upload-image/get')
+          console.log(res)
+        } catch (e) {
+          alert(e.toString())
+        }
       },
       onImageChange: function (e) {
         let files = e.target.files || e.dataTransfer.files
@@ -32,10 +34,11 @@
       },
       upload: async function () {
         try {
+          let ext = this.file.name.split('.').pop()
           const formData = new FormData()
-          formData.append('filename', this.filename)
+          formData.append('filename', this.filename + '.' + ext)
           formData.append('file', this.file)
-          let resUpload = await axios.post('/upload-image/add', formData, {
+          let resUpload = await axios.post('/upload-image/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
