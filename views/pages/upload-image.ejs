@@ -5,6 +5,17 @@
     <input type="text" v-model="filename"  class="form-control d-inline-block" style="width: 200px" placeholder="Tên file">
     <button v-if="file && filename" class="btn btn-primary" @click="upload()">Upload</button>
   </div>
+  <div>
+    <div class="d-flex justify-content-center">
+      <div class="img-wrapper" v-for="img in list">
+        <img :src="'/upload-image/' + img.filename">
+        <small class="d-block text-center">/upload-image/{{img.filename}}</small>
+        <div class="text-center">
+          <button class="btn btn-danger btn-sm">Xoá</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -13,7 +24,8 @@
     el: '#app',
     data: {
       file: null,
-      filename: ''
+      filename: '',
+      list: []
     },
     created: function() {
       this.getData()
@@ -22,7 +34,7 @@
       getData: async function () {
         try {
           let res = await axios.get('/upload-image/get')
-          console.log(res)
+          this.list = res.data.images
         } catch (e) {
           alert(e.toString())
         }
@@ -43,6 +55,7 @@
               'Content-Type': 'multipart/form-data'
             }
           })
+          this.getData()
         } catch (e) {
           alert(e.toString())
         }
@@ -51,9 +64,11 @@
   })
 </script>
 <style>
-  .create-tygia-wrapper {
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin: 15px 0 15px 0;
+  .img-wrapper {
+    border: 1px dashed #000;
+  }
+  .img-wrapper img {
+    max-width: 150px;
+    max-height: 150px;
   }
 </style>

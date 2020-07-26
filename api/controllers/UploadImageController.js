@@ -18,7 +18,6 @@ module.exports = {
           saveAs: req.body.filename
         },function (err, uploadedFile) {
           if (err) return res.negotiate(err)
-          console.log(uploadedFile)
           return res.ok()
         })
       }
