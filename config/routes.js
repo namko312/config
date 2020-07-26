@@ -38,6 +38,8 @@ module.exports.routes = {
 
   '/upload-image/get': 'UploadImageController.get',
 
+  'POST /upload-image/remove': 'UploadImageController.remove',
+
 
   'POST /admin/login/local': 'AuthController.adminLocal',
 

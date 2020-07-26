@@ -11,7 +11,7 @@
         <img :src="'/upload-image/' + img.filename">
         <small class="d-block text-center">/upload-image/{{img.filename}}</small>
         <div class="text-center">
-          <button class="btn btn-danger btn-sm">Xoá</button>
+          <button class="btn btn-danger btn-sm" @click="deleteFile(img.filename)">Xoá</button>
         </div>
       </div>
     </div>
@@ -56,6 +56,19 @@
             }
           })
           this.getData()
+        } catch (e) {
+          if(e.response && e.response.data) {
+            alert(e.response.data.toString())
+          } else alert(e.toString())
+        }
+      },
+      deleteFile: async function (filename) {
+        try {
+          var r = confirm("Bạn có muốn xoá " + filename)
+          if (r == true) {
+            let res = await axios.post('/upload-image/remove', {filename})
+            this.getData()
+          }
         } catch (e) {
           alert(e.toString())
         }

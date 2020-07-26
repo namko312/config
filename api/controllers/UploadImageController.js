@@ -4,7 +4,8 @@
  * @description :: Server-side logic for managing auths
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-let upload = require('multer')()
+const fs = require('fs')
+const path = require('path')
 module.exports = {
   upload: async function (req, res) {
     try {
@@ -29,6 +30,18 @@ module.exports = {
     try {
       let images = await UploadImage.find({})
       res.json({images})
+    } catch (e) {
+      return res.negotiate(e)
+    }
+  },
+  remove: async function (req, res) {
+    try {
+      let pathImage = path.join(__dirname, '../../assets/upload-image/' + req.body.filename)
+      fs.unlink(pathImage, async function(err) {
+        if (err) return res.negotiate(err)
+        await UploadImage.destroy({filename: req.body.filename})
+        return res.ok()
+      })
     } catch (e) {
       return res.negotiate(e)
     }
