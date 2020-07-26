@@ -16,4 +16,8 @@ module.exports = {
   tygia: (req, res) => {
     res.view('pages/tygia.ejs', {});
   },
+
+  uploadImage: (req, res) => {
+    res.view('pages/upload-image.ejs', {});
+  },
 };

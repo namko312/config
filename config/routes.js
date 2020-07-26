@@ -32,6 +32,8 @@ module.exports.routes = {
 
   '/ty-gia': 'HomeController.tygia',
 
+  '/upload-image': 'HomeController.uploadImage',
+
 
   'POST /admin/login/local': 'AuthController.adminLocal',
 
