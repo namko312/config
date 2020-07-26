@@ -8,8 +8,8 @@
   <div class="mt-4">
     <div class="d-flex justify-content-center">
       <div class="img-wrapper" v-for="img in list">
-        <img :src="'https://config.shopeelike.cf/upload-image/' + img.filename">
-        <small class="d-block text-center">/upload-image/{{img.filename}}</small>
+        <img :src="'/upload-image/' + img.filename">
+        <small class="d-block text-center">https://config.shopeelike.cf/upload-image/{{img.filename}}</small>
         <div class="text-center">
           <button class="btn btn-danger btn-sm" @click="deleteFile(img.filename)">Xoá</button>
         </div>
@@ -80,9 +80,14 @@
   .img-wrapper {
     border: 1px dashed #000;
     margin: 10px;
+    max-width: 150px;
   }
   .img-wrapper img {
     max-width: 150px;
     max-height: 150px;
+  }
+  .img-wrapper small {
+    padding: 0 3px;
+    word-break: break-all;
   }
 </style>
